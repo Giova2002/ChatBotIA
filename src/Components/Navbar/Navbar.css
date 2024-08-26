@@ -1,0 +1,24 @@
+.navbar {
+    display: flex;
+    align-items: center; /* Centra verticalmente los elementos */
+    /* justify-content: space-between;  */
+    padding: 10px; /* Añade espaciado interno */
+    background-color: #F0F0F0; /* Color de fondo del navbar */
+    /* border-bottom: 1px solid #ddd;  */
+    border-top-left-radius: 40px; 
+    border-top-right-radius: 40px; 
+  }
+  
+  .navbar .menu {
+    width: 40px; /* Ajusta el tamaño del ícono del menú */
+    height: auto; /* Mantiene la proporción de la imagen */
+    margin-left: 20px;
+    cursor: pointer;
+  }
+  .navbar .logo {
+    width: 240px; /* Ajusta el tamaño del ícono del menú */
+    height: auto;
+    margin-left: 40px;
+  }
+  
+ 
