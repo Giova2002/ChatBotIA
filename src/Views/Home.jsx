@@ -11,7 +11,7 @@ function Home() {
         <div className='gray_box'>
             <div className='square'>
                 <Navbar/>
-                <Welcome/>
+                {/* <Welcome/> */}
                 <BarText/>
             </div>
         </div>

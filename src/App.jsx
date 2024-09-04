@@ -10,10 +10,11 @@ import img2 from './assets/image/logo.png'
 // import Navbar from './Components/Navbar.jsx'
 
 function App() {
-  const [count, setCount] = useState(0)
+  
 
   return (
     <>
+    {/* <link rel="icon" href={img2} /> */}
     <Router>
       {/* <Navigation/> */}
       <Routes>

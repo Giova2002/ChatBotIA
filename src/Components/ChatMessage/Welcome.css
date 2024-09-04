@@ -3,6 +3,7 @@
     align-items: center;
     flex-direction: column;
     padding-top: 190px;
+    background-color: #F0F0F0;
   }
 
   .welcome_message{
