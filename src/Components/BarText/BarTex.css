@@ -66,6 +66,7 @@
     margin-left: auto; /* Empuja los mensajes del usuario a la derecha */
     margin-right: 70px; /* Espacio a la derecha del mensaje */
     text-align: left;
+    color: #4F4C4C;
 }
 
 .bot-message {
@@ -73,6 +74,7 @@
     margin-left: 70px; /* Espacio a la izquierda del mensaje */
     margin-right: auto; /* Empuja los mensajes del bot a la izquierda */
     text-align: left;
+    color: #4F4C4C;
 }
 .loader {
   display: flex;

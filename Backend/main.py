@@ -37,13 +37,15 @@ async def chat(request: Request):
     user_message = body.get("message")
     
     # Initialize messages if not already present
-    messages = [{"role": "assistant", "content": "How can I help you?"}]
+    messages = [{"role": "assistant", "content": "How can I help you?"}, {"role": "assistant", "content": "Este modelo solo responderá preguntas relacionadas con código y atajos de teclado en NetBeans."}, {"role": "assistant", "content": "This model will only respond to questions related to code and keyboard shortcuts in NetBeans."}]
     if user_message:
         messages.append({"role": "user", "content": user_message})
 
     # Call the Ollama chat function
     response = ollama.chat(model='llama3.1', stream=False, messages=messages)
+    
     assistant_response = response.get("message", {}).get("content", "No response from model")
+    
     
     return {"response": assistant_response}
 
