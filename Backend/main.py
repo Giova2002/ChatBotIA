@@ -15,20 +15,62 @@
 #     assistant_response = response["message"]["content"]
     
 #     return {"response": assistant_response}
+
+
+# from fastapi import FastAPI, Request
+# from fastapi.middleware.cors import CORSMiddleware
+# import ollama
+
+# app = FastAPI()
+# origins =[
+#     "http://localhost:5173"
+# ]
+# app.add_middleware(
+#     CORSMiddleware,
+#     allow_origins=["*"],  # Permitir todas las origines. Cambia esto según tus necesidades.
+#     allow_credentials=True,
+#     allow_methods=["*"],  # Permitir todos los métodos HTTP
+#     allow_headers=["*"],  # Permitir todas las cabeceras
+# )
+
+# @app.post("/")
+# async def chat(request: Request):
+#     body = await request.json()
+#     user_message = body.get("message")
+    
+#     # Initialize messages if not already present
+#     messages = [{"role": "assistant", "content": "How can I help you?"}, {"role": "assistant", "content": "Este modelo solo responderá preguntas relacionadas con código y atajos de teclado en NetBeans."}, {"role": "assistant", "content": "This model will only respond to questions related to code and keyboard shortcuts in NetBeans."}]
+    
+#     if user_message:
+#         messages.append({"role": "user", "content": user_message})
+
+#     # Call the Ollama chat function
+#     response = ollama.chat(model='llama3.1', stream=False, messages=messages)
+    
+#     assistant_response = response.get("message", {}).get("content", "No response from model")
+    
+    
+#     return {"response": assistant_response}
+
+
+# http://127.0.0.1:8000 
+
 from fastapi import FastAPI, Request
 from fastapi.middleware.cors import CORSMiddleware
 import ollama
 
 app = FastAPI()
-origins =[
+
+origins = [
     "http://localhost:5173"
 ]
+
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],  # Permitir todas las origines. Cambia esto según tus necesidades.
+    allow_origins=["*"],
     allow_credentials=True,
-    allow_methods=["*"],  # Permitir todos los métodos HTTP
-    allow_headers=["*"],  # Permitir todas las cabeceras
+    allow_methods=["*"],
+    allow_headers=["*"],
 )
 
 @app.post("/")
@@ -36,18 +78,26 @@ async def chat(request: Request):
     body = await request.json()
     user_message = body.get("message")
     
-    # Initialize messages if not already present
-    messages = [{"role": "assistant", "content": "How can I help you?"}, {"role": "assistant", "content": "Este modelo solo responderá preguntas relacionadas con código y atajos de teclado en NetBeans."}, {"role": "assistant", "content": "This model will only respond to questions related to code and keyboard shortcuts in NetBeans."}]
+    # Instrucción clara para que Ollama solo responda preguntas sobre NetBeans y programación
+    system_instruction = """
+    You are a helpful assistant that only answers questions related to programming, the NetBeans IDE, or its shortcuts. 
+    If the question is not related to these topics, respond with:
+    'I can only answer questions about programming, NetBeans IDE, or its shortcuts.'
+    """
+
     if user_message:
-        messages.append({"role": "user", "content": user_message})
+        messages = [
+            {"role": "system", "content": system_instruction},  # Instrucción para el modelo
+            {"role": "user", "content": user_message}            # Pregunta del usuario
+        ]
 
-    # Call the Ollama chat function
-    response = ollama.chat(model='llama3.1', stream=False, messages=messages)
+        # Llamar al modelo Ollama para obtener la respuesta
+        response = ollama.chat(model='llama3.1', stream=False, messages=messages)
+        assistant_response = response.get("message", {}).get("content", "No response from model")
     
-    assistant_response = response.get("message", {}).get("content", "No response from model")
-    
-    
-    return {"response": assistant_response}
+        return {"response": assistant_response}
+
+    return {"response": "No message provided."}
 
 
-# http://127.0.0.1:8000 
+
