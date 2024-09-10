@@ -10,7 +10,7 @@ function Home() {
     return (
         <div className='gray_box'>
             <div className='square'>
-                <Navbar/>
+                {/* <Navbar/> */}
                 {/* <Welcome/> */}
                 <BarText/>
             </div>

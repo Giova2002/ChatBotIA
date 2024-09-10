@@ -5,7 +5,7 @@ function Welcome(){
     return(
         <div className='chat_message'>
             <img className='img_welcomeChat' src={img}/>
-            <h2 className='welcome_message'>¿En qué te puedo ayudar?</h2>
+            <h2 className='welcome_message'>How can I help you?</h2>
         </div>
     )
 }

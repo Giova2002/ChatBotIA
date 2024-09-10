@@ -87,6 +87,7 @@ import React, { useState } from 'react';
 import './BarTex.css';
 import img from '../../assets/image/send.png';
 import Welcome from '../ChatMessage/Welcome';
+import Navbar from '../Navbar/Navbar';
 
 function BarText() {
     const [message, setMessage] = useState('');
@@ -94,21 +95,23 @@ function BarText() {
     const [loading, setLoading] = useState(false); // Estado para el loader
     const [showWelcome, setShowWelcome] = useState(true); // Estado para el componente de bienvenida
 
-    const handleSend = async () => {
-        if (message.trim() === '') return;
-
-        const userMessage = message.trim();
+    const handleSend = async (presetMessage = null) => {
+        const messageToSend = presetMessage || message.trim();  // Usar presetMessage si existe, si no, usar el estado message
+    
+        if (messageToSend === '') return;
+    
+        const userMessage = messageToSend;
         const updatedChatHistory = [...chatHistory, { role: 'user', content: userMessage }];
-
+    
         // Eliminar el mensaje de bienvenida al enviar el primer mensaje
         if (showWelcome) {
             setShowWelcome(false); // Desactivar el componente de bienvenida
         }
-
+    
         setChatHistory(updatedChatHistory);
         setMessage('');
         setLoading(true); // Activar loader
-
+    
         try {
             // Llamar al backend para obtener la respuesta de Ollama
             const response = await fetch('http://127.0.0.1:8000', {
@@ -118,7 +121,7 @@ function BarText() {
                 },
                 body: JSON.stringify({ message: userMessage }),
             });
-
+    
             const data = await response.json();
             setChatHistory([...updatedChatHistory, { role: 'bot', content: data.response }]);
         } catch (error) {
@@ -127,6 +130,49 @@ function BarText() {
             setLoading(false); // Desactivar loader
         }
     };
+    
+    const sendPresetMessage = (presetMessage) => {
+        handleSend(presetMessage);  // Enviar el mensaje predefinido
+    };
+    
+
+    // const handleSend = async () => {
+    //     if (message.trim() === '') return;
+
+    //     const userMessage = message.trim();
+    //     const updatedChatHistory = [...chatHistory, { role: 'user', content: userMessage }];
+
+    //     // Eliminar el mensaje de bienvenida al enviar el primer mensaje
+    //     if (showWelcome) {
+    //         setShowWelcome(false); // Desactivar el componente de bienvenida
+    //     }
+
+    //     setChatHistory(updatedChatHistory);
+    //     setMessage('');
+    //     setLoading(true); // Activar loader
+
+    //     try {
+    //         // Llamar al backend para obtener la respuesta de Ollama
+    //         const response = await fetch('http://127.0.0.1:8000', {
+    //             method: 'POST',
+    //             headers: {
+    //                 'Content-Type': 'application/json',
+    //             },
+    //             body: JSON.stringify({ message: userMessage }),
+    //         });
+
+    //         const data = await response.json();
+    //         setChatHistory([...updatedChatHistory, { role: 'bot', content: data.response }]);
+    //     } catch (error) {
+    //         setChatHistory([...updatedChatHistory, { role: 'bot', content: 'Lo siento, ocurrió un error.' }]);
+    //     } finally {
+    //         setLoading(false); // Desactivar loader
+    //     }
+    // };
+
+    // const sendPresetMessage = (presetMessage) => {
+    //     handleSend(presetMessage);  // Usar la función handleSend para enviar el mensaje predeterminado
+    // };
 
     // Función para renderizar el contenido formateado
     const renderContent = (text) => {
@@ -224,6 +270,7 @@ function BarText() {
 
     return (
         <div>
+            <Navbar onSendMessage={sendPresetMessage} />
             <div className='chat_history'>
                 {showWelcome && (
                     <div className="welcome-message">
@@ -252,11 +299,13 @@ function BarText() {
                     name="message"
                     rows="4"
                     cols="50"
-                    placeholder="Envía un mensaje a DevShorty"
+                    placeholder="Send a message to DevShorty"
                     value={message}
                     onChange={(e) => setMessage(e.target.value)}
                 />
-                <img className='send' src={img} onClick={handleSend} alt="send" />
+                {/* <img className='send' src={img} onClick={handleSend} alt="send" /> */}
+                <img className='send' src={img} onClick={() => handleSend()} alt="send" />
+
             </div>
         </div>
     );
