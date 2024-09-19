@@ -270,7 +270,7 @@ function BarText() {
 
     return (
         <div>
-            <Navbar onSendMessage={sendPresetMessage} />
+            <Navbar onSendMessage={sendPresetMessage} chatHistory={chatHistory} />
             <div className='chat_history'>
                 {showWelcome && (
                     <div className="welcome-message">
