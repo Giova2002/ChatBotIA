@@ -22,3 +22,9 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+.config/*
+chatbot-e10ff-firebase-adminsdk-o5erg-1fda4a84aa.json
+
+
+# Entorno
+venv/

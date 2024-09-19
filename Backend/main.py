@@ -113,6 +113,7 @@ from .firebase_config import db # Importar Firestore desde la configuración de 
 from firebase_admin import firestore
 
 
+
 app = FastAPI()
 chat_history = []
 
@@ -161,6 +162,7 @@ async def chat(request: Request):
                 "botResponse": assistant_response,
                 "timestamp": firestore.SERVER_TIMESTAMP
             })
+            print(f"Historial guardado con ID: {doc_ref.id}")
             print(f"Historial guardado con ID: {doc_ref.id}")
         except Exception as e:
             print(f"Error guardando el historial: {e}")

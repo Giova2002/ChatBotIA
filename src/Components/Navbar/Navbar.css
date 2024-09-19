@@ -213,6 +213,13 @@
 
 }
 
+.fecha {
+  display: block; 
+  margin-top: 4px; 
+  font-size: 0.9em; 
+  color: #555;
+}
+
 /* Media queries para pantallas más pequeñas */
 @media (max-width: 768px) {
   .query_space {
