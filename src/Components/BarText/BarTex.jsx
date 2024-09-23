@@ -549,7 +549,7 @@
 
 
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import './BarTex.css';
 import img from '../../assets/image/send.png';
 import Welcome from '../ChatMessage/Welcome';
@@ -561,6 +561,9 @@ function BarText() {
     const [chatHistory, setChatHistory] = useState([]);
     const [loading, setLoading] = useState(false);
     const [showWelcome, setShowWelcome] = useState(true);
+
+    const chatHistoryRef = useRef(null);  // Ref para el contenedor de la historia del chat
+    const lastMessageRef = useRef(null);
 
     // Función para obtener el historial del día actual al cargar la página
     const loadTodayHistory = async () => {
@@ -729,17 +732,23 @@ function BarText() {
         );
     };
 
+    useEffect(() => {
+        if (lastMessageRef.current) {
+            lastMessageRef.current.scrollIntoView({ behavior: 'smooth' });
+        }
+    }, [chatHistory, loading]);
+
     return (
         <div>
             <Navbar onSendMessage={handleSend} chatHistory={chatHistory} loadTodayHistory={loadTodayHistory} hideWelcomeMessage={hideWelcomeMessage}/>
-            <div className='chat_history'>
+            <div className='chat_history' ref={chatHistoryRef}>
                 {showWelcome && (
                     <div className="welcome-message">
                         <Welcome />
                     </div>
                 )}
                 {chatHistory.map((msg, index) => (
-                    <div key={index} className={msg.role === 'user' ? 'user-message' : 'bot-message'}>
+                    <div key={index} className={msg.role === 'user' ? 'user-message' : 'bot-message'} ref={index === chatHistory.length - 1 ? lastMessageRef : null}>
                         <div>
                             {renderContent(msg.content)}
                         </div>
