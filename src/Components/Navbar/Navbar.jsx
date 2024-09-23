@@ -383,17 +383,29 @@ import img3 from '../../assets/image/query.png';
 import img4 from '../../assets/image/back.png';
 import { format } from 'date-fns';
 
-function Navbar({ onSendMessage, chatHistory }) {
+function Navbar({ onSendMessage, chatHistory, loadTodayHistory, hideWelcomeMessage}) {
     const [isMenuModalOpen, setIsMenuModalOpen] = useState(false);
     const [isHistoryModalOpen, setIsHistoryModalOpen] = useState(false);
+    // const [todayHistory, setTodayHistory] = useState([]);
 
     const toggleMenuModal = () => {
         setIsMenuModalOpen(!isMenuModalOpen);
     };
 
-    const toggleHistoryModal = () => {
+    // const toggleHistoryModal = () => {
+    //     setIsHistoryModalOpen(!isHistoryModalOpen);
+       
+    // };
+    const toggleHistoryModal = async () => {
         setIsHistoryModalOpen(!isHistoryModalOpen);
+        
+        if (!isHistoryModalOpen) {
+            // Cargar el historial de la fecha actual solo si se abre el modal
+            await loadTodayHistory();
+            hideWelcomeMessage();
+        }
     };
+
 
     const handleSelection = (level) => {
         toggleMenuModal();
@@ -462,5 +474,7 @@ function Navbar({ onSendMessage, chatHistory }) {
 }
 
 export default Navbar;
+
+
 
 
