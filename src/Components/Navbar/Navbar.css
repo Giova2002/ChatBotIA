@@ -220,6 +220,19 @@
   color: #555;
 }
 
+.no_query{
+  font-size: medium;
+  font-family: Arial, Helvetica, sans-serif;
+  color: #F0F0F0;
+  font-size: 15px;
+  display: flex;
+  justify-content: center; 
+  align-items: center;      
+  height: 50vh;  
+  text-align: center;
+  /* text-align-last: center; */
+}
+
 /* Media queries para pantallas más pequeñas */
 @media (max-width: 768px) {
   .query_space {

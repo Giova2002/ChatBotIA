@@ -449,8 +449,35 @@ function Navbar({ onSendMessage, chatHistory, loadTodayHistory, hideWelcomeMessa
                     </div>
                 </div>
             )}
-
             {isHistoryModalOpen && (
+    <div className="modal">
+        <div className="modal-content">
+            <img className='back' src={img4} onClick={toggleHistoryModal} alt="back" />
+            <h1 className='query_modal'>Query History</h1>
+
+            <div className="history-container">
+                {chatHistory.length === 0 ? (
+                    <p className='no_query'>There are no queries registered today</p>
+                ) : (
+                    <ul>
+                        {chatHistory.map((entry, index) => (
+                            <li key={index}>
+                                <strong>{entry.role === 'user' ? 'Usuario' : 'Bot'}:</strong> {entry.content}
+                                <small className='fecha'>
+                                    {'\n'}{'\n'}
+                                    {entry.timestamp ? formatTimestamp(entry.timestamp) : 'Sin fecha'}
+                                    {'\n'}
+                                </small>
+                            </li>
+                        ))}
+                    </ul>
+                )}
+            </div>
+        </div>
+    </div>
+)}
+
+            {/* {isHistoryModalOpen && (
                 <div className="modal">
                     <div className="modal-content">
                         <img className='back' src={img4} onClick={toggleHistoryModal} alt="back" />
@@ -468,7 +495,7 @@ function Navbar({ onSendMessage, chatHistory, loadTodayHistory, hideWelcomeMessa
                         </div>
                     </div>
                 </div>
-            )}
+            )} */}
         </div>
     );
 }
