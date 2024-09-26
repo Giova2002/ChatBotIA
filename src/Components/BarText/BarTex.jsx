@@ -798,12 +798,12 @@ function BarText() {
     const lastMessageRef = useRef(null);
 
     // Cambia la URL de tu API aquí
-    const API_URL = 'https://tu-aplicacion.onrender.com'; // Reemplaza esto con tu URL de Render
+    const API_URL = 'https://chatbotia-7c27.onrender.com'; // Reemplaza esto con tu URL de Render
 
     // Función para obtener el historial del día actual al cargar la página
     const loadTodayHistory = async () => {
         try {
-            const response = await fetch(`${API_URL}/history/today`, {  // Cambié la URL aquí
+            const response = await fetch(`${API_URL}/history/today`, {
                 method: 'GET',
                 headers: {
                     'Content-Type': 'application/json',
@@ -854,7 +854,7 @@ function BarText() {
         setLoading(true);
 
         try {
-            const response = await fetch(`${API_URL}/`, {  // Cambié la URL aquí
+            const response = await fetch(`${API_URL}/chat`, {  // Cambié la URL aquí
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -863,13 +863,22 @@ function BarText() {
             });
 
             const data = await response.json();
-            setChatHistory([...updatedChatHistory, {
-                role: 'bot',
-                content: data.response,
-                timestamp: timestamp.toISOString(),
-            }]);
+            // Verificamos si hay una respuesta válida
+            if (data.response) {
+                setChatHistory([...updatedChatHistory, {
+                    role: 'bot',
+                    content: data.response,
+                    timestamp: timestamp.toISOString(),
+                }]);
+            } else {
+                setChatHistory([...updatedChatHistory, {
+                    role: 'bot',
+                    content: 'Lo siento, no obtuve una respuesta válida.',
+                    timestamp: timestamp.toISOString(),
+                }]);
+            }
         } catch (error) {
-            console.error('Error fetching data:', error); // Loguea el error
+            console.error('Error fetching data:', error);
             setChatHistory([...updatedChatHistory, {
                 role: 'bot',
                 content: 'Lo siento, ocurrió un error.',
@@ -974,9 +983,13 @@ function BarText() {
         }
     }, [chatHistory, loading]);
 
+    useEffect(() => {
+        loadTodayHistory();  // Carga el historial al montar el componente
+    }, []);
+
     return (
         <div>
-            <Navbar onSendMessage={handleSend} chatHistory={chatHistory} loadTodayHistory={loadTodayHistory} hideWelcomeMessage={hideWelcomeMessage}/>
+            <Navbar onSendMessage={handleSend} chatHistory={chatHistory} loadTodayHistory={loadTodayHistory} hideWelcomeMessage={hideWelcomeMessage} />
             <div className='chat_history' ref={chatHistoryRef}>
                 {showWelcome && (
                     <div className="welcome-message">
@@ -1016,6 +1029,7 @@ function BarText() {
 }
 
 export default BarText;
+
 
 
 
