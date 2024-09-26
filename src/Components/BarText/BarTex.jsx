@@ -803,7 +803,7 @@ function BarText() {
     // Función para obtener el historial del día actual al cargar la página
     const loadTodayHistory = async () => {
         try {
-            const response = await fetch(`${API_URL}/history/today`, {
+            const response = await fetch(`${API_URL}/history/today`, {  // Cambié la URL aquí
                 method: 'GET',
                 headers: {
                     'Content-Type': 'application/json',
@@ -863,22 +863,13 @@ function BarText() {
             });
 
             const data = await response.json();
-            // Verificamos si hay una respuesta válida
-            if (data.response) {
-                setChatHistory([...updatedChatHistory, {
-                    role: 'bot',
-                    content: data.response,
-                    timestamp: timestamp.toISOString(),
-                }]);
-            } else {
-                setChatHistory([...updatedChatHistory, {
-                    role: 'bot',
-                    content: 'Lo siento, no obtuve una respuesta válida.',
-                    timestamp: timestamp.toISOString(),
-                }]);
-            }
+            setChatHistory([...updatedChatHistory, {
+                role: 'bot',
+                content: data.response,
+                timestamp: timestamp.toISOString(),
+            }]);
         } catch (error) {
-            console.error('Error fetching data:', error);
+            console.error('Error fetching data:', error); // Loguea el error
             setChatHistory([...updatedChatHistory, {
                 role: 'bot',
                 content: 'Lo siento, ocurrió un error.',
@@ -983,13 +974,9 @@ function BarText() {
         }
     }, [chatHistory, loading]);
 
-    useEffect(() => {
-        loadTodayHistory();  // Carga el historial al montar el componente
-    }, []);
-
     return (
         <div>
-            <Navbar onSendMessage={handleSend} chatHistory={chatHistory} loadTodayHistory={loadTodayHistory} hideWelcomeMessage={hideWelcomeMessage} />
+            <Navbar onSendMessage={handleSend} chatHistory={chatHistory} loadTodayHistory={loadTodayHistory} hideWelcomeMessage={hideWelcomeMessage}/>
             <div className='chat_history' ref={chatHistoryRef}>
                 {showWelcome && (
                     <div className="welcome-message">
@@ -1029,7 +1016,6 @@ function BarText() {
 }
 
 export default BarText;
-
 
 
 
