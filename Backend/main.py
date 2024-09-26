@@ -106,34 +106,40 @@
 #     return {"response": "No message provided."}
 
 
+# 
+
+
 from fastapi import FastAPI, Request
 from fastapi.middleware.cors import CORSMiddleware
 import ollama
-from .firebase_config import db # Importar Firestore desde la configuración de Firebase
+from .firebase_config import db  # Importar Firestore desde la configuración de Firebase
 from firebase_admin import firestore
 from datetime import datetime, timedelta
-
 
 app = FastAPI()
 chat_history = []
 
 origins = [
-    "http://localhost:5173"
+    "http://localhost:5173"  # Añadir aquí otros orígenes permitidos si es necesario
 ]
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],
+    allow_origins=origins,
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
 )
 
-@app.post("/")
+@app.get("/")
+async def read_root():
+    return {"message": "API is running. Use the /chat endpoint to send messages."}
+
+@app.post("/chat")
 async def chat(request: Request):
     body = await request.json()
     user_message = body.get("message")
-    
+
     # Instrucción clara para que Ollama solo responda preguntas sobre NetBeans y programación
     system_instruction = """
     You are a helpful assistant that only answers questions related to programming, the NetBeans IDE, or its shortcuts. 
@@ -150,7 +156,7 @@ async def chat(request: Request):
         # Llamar al modelo Ollama para obtener la respuesta
         response = ollama.chat(model='llama3.1', stream=False, messages=messages)
         assistant_response = response.get("message", {}).get("content", "No response from model")
-        
+
         # Guardar el mensaje del usuario y la respuesta del bot en el historial
         chat_history.append({"role": "user", "content": user_message})
         chat_history.append({"role": "bot", "content": assistant_response})
@@ -162,7 +168,6 @@ async def chat(request: Request):
                 "botResponse": assistant_response,
                 "timestamp": firestore.SERVER_TIMESTAMP
             })
-            print(f"Historial guardado con ID: {doc_ref.id}")
             print(f"Historial guardado con ID: {doc_ref.id}")
         except Exception as e:
             print(f"Error guardando el historial: {e}")

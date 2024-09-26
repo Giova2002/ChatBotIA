@@ -549,12 +549,11 @@
 
 
 
-import React, { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import './BarTex.css';
 import img from '../../assets/image/send.png';
 import Welcome from '../ChatMessage/Welcome';
 import Navbar from '../Navbar/Navbar';
-import { format } from 'date-fns';
 
 function BarText() {
     const [message, setMessage] = useState('');
