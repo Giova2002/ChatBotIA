@@ -869,6 +869,7 @@ function BarText() {
                 timestamp: timestamp.toISOString(),
             }]);
         } catch (error) {
+            console.error('Error fetching data:', error); // Loguea el error
             setChatHistory([...updatedChatHistory, {
                 role: 'bot',
                 content: 'Lo siento, ocurrió un error.',
