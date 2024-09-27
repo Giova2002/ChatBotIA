@@ -120,8 +120,8 @@ app = FastAPI()
 chat_history = []
 
 origins = [
-    "http://localhost:5173",  # Origen permitido
-    "https://chatbotia-7c27.onrender.com",  # Puedes agregar el dominio del backend si lo necesitas
+    # "http://localhost:5173",  # Origen permitido
+    # "https://chatbotia-7c27.onrender.com",  # Puedes agregar el dominio del backend si lo necesitas
     "*",  # Este comodín permite todos los orígenes (solo para pruebas, no recomendado en producción)
 ]
 
