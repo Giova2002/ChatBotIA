@@ -16,36 +16,36 @@
 # db = firestore.client()
 
 
-# import firebase_admin
-# from firebase_admin import credentials, firestore
+import firebase_admin
+from firebase_admin import credentials, firestore
 
-# cred = credentials.Certificate("Backend\chatbot-e10ff-firebase-adminsdk-o5erg-1fda4a84aa.json")
-# firebase_admin.initialize_app(cred)
+cred = credentials.Certificate("Backend/chatbot-e10ff-firebase-adminsdk-o5erg-1fda4a84aa.json")
+firebase_admin.initialize_app(cred)
 
-# db = firestore.client()
+db = firestore.client()
 
 # Backend/chatbot-e10ff-firebase-adminsdk-o5erg-8e7b8736bf.json
 
-import firebase_admin
-from firebase_admin import credentials, firestore
-import os
-import json
+# import firebase_admin
+# from firebase_admin import credentials, firestore
+# import os
+# import json
 
-# Lee el contenido de la variable de entorno que contiene las credenciales
-firebase_credentials_json = os.getenv('FIREBASE_CREDENTIALS')
+# # Lee el contenido de la variable de entorno que contiene las credenciales
+# firebase_credentials_json = os.getenv('FIREBASE_CREDENTIALS')
 
-# Verifica si las credenciales se obtuvieron correctamente
-if not firebase_credentials_json:
-    raise ValueError("Firebase credentials not found in environment variables")
+# # Verifica si las credenciales se obtuvieron correctamente
+# if not firebase_credentials_json:
+#     raise ValueError("Firebase credentials not found in environment variables")
 
-# Convierte la cadena JSON en un diccionario
-firebase_credentials_dict = json.loads(firebase_credentials_json)
+# # Convierte la cadena JSON en un diccionario
+# firebase_credentials_dict = json.loads(firebase_credentials_json)
 
-# Usa el diccionario de credenciales para inicializar Firebase
-cred = credentials.Certificate(firebase_credentials_dict)
-firebase_admin.initialize_app(cred)
+# # Usa el diccionario de credenciales para inicializar Firebase
+# cred = credentials.Certificate(firebase_credentials_dict)
+# firebase_admin.initialize_app(cred)
 
-# Inicializa Firestore
-db = firestore.client()
+# # Inicializa Firestore
+# db = firestore.client()
 
 # Ahora puedes usar `db` para acceder a Firestore
